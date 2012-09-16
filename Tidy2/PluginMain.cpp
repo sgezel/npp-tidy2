@@ -6,6 +6,8 @@
 #include "PluginMain.h"
 #include "AboutDialog.h"
 #include "PluginDetails.h"
+#include "NotepadPlugin.h"
+
 #include "../tidy-html5/include/tidy.h"
 
 
@@ -16,9 +18,8 @@ const int	nbFunc			= 10;
 FuncItem	funcItem[nbFunc];
 
 /* Global data */
-NppData				nppData;
 HANDLE				g_hModule			= NULL;
-TCHAR				iniFilePath[MAX_PATH];
+NotepadPlugin*		g_plugin			= NULL;
 
 /* Dialogs */
 AboutDialog		aboutDlg;
@@ -43,100 +44,32 @@ void doShowConfigHelp();
 
 extern "C" __declspec(dllexport) void setInfo(NppData notepadPlusData)
 {
-	nppData = notepadPlusData;
+	g_plugin->setInfo(&notepadPlusData);
 
-	aboutDlg.init((HINSTANCE)g_hModule, nppData);
+	// TODO: Remove
+//	aboutDlg.init((HINSTANCE)g_hModule, nppData);
 
 }
 
 extern "C" __declspec(dllexport) CONST TCHAR * getName()
 {
-	return TCHAR_PLUGIN_NAME;
+	return g_plugin->getName();
 }
 
 
 extern "C" __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
 {
-	funcItem[0]._pFunc = doTidy1;	  
-	_tcscpy_s(funcItem[0]._itemName, 64, _T("Tidy (config 1)"));
-	funcItem[0]._init2Check = false;
-	funcItem[0]._pShKey = NULL;
-
-	funcItem[1]._pFunc = doTidy2;	  
-	_tcscpy_s(funcItem[1]._itemName, 64, _T("Tidy (config 2)"));
-	funcItem[1]._init2Check = false;
-	funcItem[1]._pShKey = NULL;
-
-	funcItem[2]._pFunc = doTidy3;	  
-	_tcscpy_s(funcItem[2]._itemName, 64, _T("Tidy (config 3)"));
-	funcItem[2]._init2Check = false;
-	funcItem[2]._pShKey = NULL;
-
-	funcItem[3]._pFunc = NULL;	  
-	_tcscpy_s(funcItem[3]._itemName, 64, _T("--"));
-	funcItem[3]._init2Check = false;
-	funcItem[3]._pShKey = NULL;
-
-	funcItem[4]._pFunc = doEditConfig1;	  
-	_tcscpy_s(funcItem[4]._itemName, 64, _T("Edit config 1"));
-	funcItem[4]._init2Check = false;
-	funcItem[4]._pShKey = NULL;
-
-	funcItem[5]._pFunc = doEditConfig2;	  
-	_tcscpy_s(funcItem[5]._itemName, 64, _T("Edit config 2"));
-	funcItem[5]._init2Check = false;
-	funcItem[5]._pShKey = NULL;
-
-	funcItem[6]._pFunc = doEditConfig3;	  
-	_tcscpy_s(funcItem[6]._itemName, 64, _T("Edit config 3"));
-	funcItem[6]._init2Check = false;
-	funcItem[6]._pShKey = NULL;
-
-	funcItem[7]._pFunc = doShowConfigHelp;	  
-	_tcscpy_s(funcItem[7]._itemName, 64, _T("Show Config Help"));
-	funcItem[7]._init2Check = false;
-	funcItem[7]._pShKey = NULL;
-
-	funcItem[8]._pFunc = NULL;	  
-	_tcscpy_s(funcItem[8]._itemName, 64, _T("--"));
-	funcItem[8]._init2Check = false;
-	funcItem[8]._pShKey = NULL;
-
-	funcItem[9]._pFunc = doAbout;	  
-	_tcscpy_s(funcItem[9]._itemName, 64, _T("About"));
-	funcItem[9]._init2Check = false;
-	funcItem[9]._pShKey = NULL;
-
-	*nbF = nbFunc;
-	return funcItem;
+	return g_plugin->getMenuItems(nbF);
 }
-
-
-
-HWND getCurrentHScintilla()
-{
-	int which;
-	SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, reinterpret_cast<LPARAM>(&which));
-	return (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
-}
-
 
 extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
 {
-	switch(notifyCode->nmhdr.code)
-	{
-		case NPPN_READY:
-			break;
-
-		case NPPN_SHUTDOWN:
-			break;
-	}
-
+	g_plugin->beNotified(notifyCode);
 }
 
-extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam)
+extern "C" __declspec(dllexport) LRESULT messageProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return TRUE;
+	return g_plugin->messageProc(message, wParam, lParam);
 }
 
 
@@ -236,7 +169,7 @@ void createDefaultConfig(const char *configPath)
 	}
 }
 
-
+/*
 
 void getConfigPath(char *result, int bufferSize, const char *configName)
 {
@@ -256,7 +189,8 @@ void getConfigPath(char *result, int bufferSize, const char *configName)
 
 	
 }
-
+*/
+/*
 void doTidy(const char *configName)
 {
 	HWND currentScintilla = getCurrentHScintilla();
@@ -421,3 +355,4 @@ void doShowConfigHelp()
 	}
 }
 
+*/

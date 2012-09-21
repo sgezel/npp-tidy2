@@ -58,13 +58,13 @@ int NotepadPlugin::addMenuItem(tstring menuText,
 					const bool initToChecked,
 					const ModifierKeys modifiers, 
 					const UCHAR shortcutKey,
-					PLUGIN_CLASS_NAME* pluginInstance, 
-					std::function<void(PLUGIN_CLASS_NAME*)> method)
+					void* pluginInstance, 
+					methodCallTD method)
 {
 	FunctionItem *functionItem = new FunctionItem();
 	functionItem->funcItem = createFuncItem(menuText, initToChecked, modifiers, shortcutKey);
 
-	functionItem->instance = (PLUGIN_CLASS_NAME*)pluginInstance;
+	functionItem->instance = pluginInstance;
 	functionItem->statelessMethod = method;
 	functionItem->methodType = MethodType::Stateless;
 	m_functionList.push_back(functionItem);
@@ -77,14 +77,14 @@ int NotepadPlugin::addMenuItem(tstring menuText,
 					const bool initToChecked,
 					const ModifierKeys modifiers, 
 					const UCHAR shortcutKey,
-					PLUGIN_CLASS_NAME* pluginInstance, 
-					std::function<void(PLUGIN_CLASS_NAME*, void*)> method,
+					void* pluginInstance, 
+					stateMethodCallTD method,
 					void *context)
 {
 	FunctionItem *functionItem = new FunctionItem();
 	functionItem->funcItem = createFuncItem(menuText, initToChecked, modifiers, shortcutKey);
 
-	functionItem->instance = (PLUGIN_CLASS_NAME*)pluginInstance;
+	functionItem->instance = pluginInstance;
 	functionItem->statefulMethod = method;
 	functionItem->methodType = MethodType::Stateful;
 	functionItem->state = context;
@@ -122,11 +122,11 @@ void NotepadPlugin::callFunction(int index)
 {
 	if (m_functionList[index]->methodType == MethodType::Stateful)
 	{	
-		m_functionList[index]->statefulMethod(m_functionList[index]->instance, m_functionList[index]->state);
+		m_functionList[index]->statefulMethod(static_cast<NotepadPlugin*>(m_functionList[index]->instance), m_functionList[index]->state);
 	}
 	else
 	{
-		m_functionList[index]->statelessMethod(m_functionList[index]->instance);
+		m_functionList[index]->statelessMethod(static_cast<NotepadPlugin*>(m_functionList[index]->instance));
 	}
 }
 

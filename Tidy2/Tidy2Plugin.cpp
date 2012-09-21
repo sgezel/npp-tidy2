@@ -7,9 +7,13 @@
 Tidy2Plugin::Tidy2Plugin(HMODULE hModule)
 	: NotepadPlugin(hModule)
 {
-	addMenuItem(_T("Tidy 1"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy1.cfg")));
+	m_text = _T("SomeText");
+	auto ptr = static_cast<void (__thiscall NotepadPlugin::* )(void)>(&Tidy2Plugin::showMessage);
+
+	addMenuItem(_T("Tidy 1"), false, ModifierKeys::None, 0, this, ptr);
+	/*addMenuItem(_T("Tidy 1"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy1.cfg")));
 	addMenuItem(_T("Tidy 2"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy2.cfg")));
-	addMenuItem(_T("Tidy 3"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy3.cfg")));
+	addMenuItem(_T("Tidy 3"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy3.cfg")));*/
 }
 
 

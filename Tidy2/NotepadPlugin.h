@@ -29,16 +29,9 @@ public:
 	typedef void(NotepadPlugin::*methodCall)();
 
 protected:
-	///<summary>
-	/// Adds a menu item. Can only be called inside a derived class' constructor. 
-	/// Calling after getMenuItems() has been called results in an error (false return).
-	/// </summary>
-	int addMenuItem(tstring menuText, 
-					const bool initToChecked,
-					const ModifierKeys modifiers, 
-					const UCHAR shortcutKey,
-					PLUGIN_CLASS_NAME* pluginInstance, 
-					std::function<void(PLUGIN_CLASS_NAME*)> method);
+	
+	typedef void (__thiscall NotepadPlugin::*methodCallTD )(void) ;
+	typedef void (__thiscall NotepadPlugin::*stateMethodCallTD )(void*) ;
 
 	///<summary>
 	/// Adds a menu item. Can only be called inside a derived class' constructor. 
@@ -48,8 +41,22 @@ protected:
 					const bool initToChecked,
 					const ModifierKeys modifiers, 
 					const UCHAR shortcutKey,
-					PLUGIN_CLASS_NAME* pluginInstance, 
-					std::function<void(PLUGIN_CLASS_NAME*, void*)> method,
+					void* pluginInstance, 
+					methodCallTD method);
+
+
+	
+
+	///<summary>
+	/// Adds a menu item. Can only be called inside a derived class' constructor. 
+	/// Calling after getMenuItems() has been called results in an error (false return).
+	/// </summary>
+	int addMenuItem(tstring menuText, 
+					const bool initToChecked,
+					const ModifierKeys modifiers, 
+					const UCHAR shortcutKey,
+					void* pluginInstance, 
+					stateMethodCallTD method,
 					void* context);
 
 	/** Receive a notification from Scintilla or Notepad++ */

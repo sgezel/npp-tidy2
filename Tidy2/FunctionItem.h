@@ -19,10 +19,10 @@ enum MethodType
 class FunctionItem
 {
 public:
-	std::function<void(PLUGIN_CLASS_NAME*, void*)> statefulMethod;
-	std::function<void(PLUGIN_CLASS_NAME*)> statelessMethod;
+	std::function<void(NotepadPlugin*, void*)> statefulMethod;
+	std::function<void(NotepadPlugin*)> statelessMethod;
 	FuncItem* funcItem;
-	PLUGIN_CLASS_NAME* instance;
+	void* instance;
 	void* state;
 	MethodType::MethodType methodType;
 };

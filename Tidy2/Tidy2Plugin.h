@@ -14,10 +14,12 @@ public:
 	virtual void notify(SCNotification* notification);
 
 private:
+	void showMessage() { ::MessageBox(NULL, m_text, _T("Plugin"), 0); }
 	void callTidy(void *context) { doTidy((const char *)context); }
 	void doTidy(const char *configName);
 	void getConfigPath(char *result, int bufferSize, const char *configName);
 	void createDefaultConfig(const char *configPath);
+	TCHAR *m_text;
 };
 
 #endif // TIDY2PLUGIN_H_3402113123

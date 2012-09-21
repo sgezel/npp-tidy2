@@ -1,30 +1,25 @@
-#ifndef FUNCTIONITEM_H_32402394
-#define FUNCTIONITEM_H_32402394
+#ifndef FUNCTIONITEM_H_148198471
+#define FUNCTIONITEM_H_148198471
 
-#include "PluginDetails.h"
+#include "CallableFunction.h"
 
 class NotepadPlugin;
-class PLUGIN_CLASS_NAME;
-
-namespace MethodType
-{
-enum MethodType
-{
-	Stateless,
-	Stateful
-};
-}
 
 
-class FunctionItem
+class FunctionItem : public CallableFunction
 {
 public:
-	std::function<void(NotepadPlugin*, void*)> statefulMethod;
-	std::function<void(NotepadPlugin*)> statelessMethod;
-	FuncItem* funcItem;
+	std::function<void(NotepadPlugin*)> method;
+	
 	void* instance;
-	void* state;
-	MethodType::MethodType methodType;
+
+	virtual void call();
 };
 
-#endif
+
+void FunctionItem::call()
+{
+	method(static_cast<NotepadPlugin*>(instance));
+}
+
+#endif // FUNCTIONITEM_H_148198471

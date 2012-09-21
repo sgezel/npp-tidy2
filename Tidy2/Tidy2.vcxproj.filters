@@ -19,6 +19,12 @@
     <Filter Include="Source Files\NppInterface">
       <UniqueIdentifier>{a6363313-71e7-45b8-bff9-93be69f898bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PluginBase">
+      <UniqueIdentifier>{f9930ecc-ba69-4f1d-8949-fe14e7a452a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PluginBase">
+      <UniqueIdentifier>{b69d8a0b-7967-4148-8854-8c87ec66e605}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -51,29 +57,35 @@
     <ClInclude Include="PluginDetails.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PluginMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\tidy-html5\include\tidy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NppInterface\Scintilla.h">
       <Filter>Header Files\NppInterface</Filter>
     </ClInclude>
-    <ClInclude Include="NotepadPlugin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FunctionItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tidy2Plugin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ModifierKeys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TidyReaderWriter.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CallableFunction.h">
+      <Filter>Header Files\PluginBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ContextualFunctionItem.h">
+      <Filter>Header Files\PluginBase</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionItem.h">
+      <Filter>Header Files\PluginBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ModifierKeys.h">
+      <Filter>Header Files\PluginBase</Filter>
+    </ClInclude>
+    <ClInclude Include="NotepadPlugin.h">
+      <Filter>Header Files\PluginBase</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginMain.h">
+      <Filter>Header Files\PluginBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -86,20 +98,20 @@
     <ClCompile Include="AboutDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PluginMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NotepadPlugin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Tidy2Plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files\PluginBase</Filter>
+    </ClCompile>
+    <ClCompile Include="NotepadPlugin.cpp">
+      <Filter>Source Files\PluginBase</Filter>
+    </ClCompile>
     <ClCompile Include="NotepadPluginStaticCommands.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\PluginBase</Filter>
+    </ClCompile>
+    <ClCompile Include="PluginMain.cpp">
+      <Filter>Source Files\PluginBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@
 #include "PluginDetails.h"
 #include "FunctionItem.h"
 
-class PLUGIN_CLASS_NAME;
 
 NotepadPlugin::NotepadPlugin(HMODULE hModule)
 	: m_hModule(hModule),
@@ -28,7 +27,8 @@ FuncItem* NotepadPlugin::getMenuItems(int *itemCount)
 	{
 		m_funcItemArray = new FuncItem[m_functionList.size()];
 		int index = 0;
-		for(std::vector<FunctionItem*>::iterator it = m_functionList.begin(); it != m_functionList.end(); ++it, ++index)
+
+		for(std::vector<CallableFunction*>::iterator it = m_functionList.begin(); it != m_functionList.end(); ++it, ++index)
 		{
 			m_funcItemArray[index] = *((*it)->funcItem);
 		}
@@ -65,33 +65,13 @@ int NotepadPlugin::addMenuItem(tstring menuText,
 	functionItem->funcItem = createFuncItem(menuText, initToChecked, modifiers, shortcutKey);
 
 	functionItem->instance = pluginInstance;
-	functionItem->statelessMethod = method;
-	functionItem->methodType = MethodType::Stateless;
+	functionItem->method = method;
 	m_functionList.push_back(functionItem);
 
 	return m_functionCount++;
 }
 
 
-int NotepadPlugin::addMenuItem(tstring menuText, 
-					const bool initToChecked,
-					const ModifierKeys modifiers, 
-					const UCHAR shortcutKey,
-					void* pluginInstance, 
-					stateMethodCallTD method,
-					void *context)
-{
-	FunctionItem *functionItem = new FunctionItem();
-	functionItem->funcItem = createFuncItem(menuText, initToChecked, modifiers, shortcutKey);
-
-	functionItem->instance = pluginInstance;
-	functionItem->statefulMethod = method;
-	functionItem->methodType = MethodType::Stateful;
-	functionItem->state = context;
-	m_functionList.push_back(functionItem);
-
-	return m_functionCount++;
-}
 
 FuncItem* NotepadPlugin::createFuncItem(tstring menuText, const bool initToChecked, ModifierKeys modifiers, UCHAR shortcutKey)
 {
@@ -118,16 +98,10 @@ FuncItem* NotepadPlugin::createFuncItem(tstring menuText, const bool initToCheck
 	return item;
 }
 
+
 void NotepadPlugin::callFunction(int index)
 {
-	if (m_functionList[index]->methodType == MethodType::Stateful)
-	{	
-		m_functionList[index]->statefulMethod(static_cast<NotepadPlugin*>(m_functionList[index]->instance), m_functionList[index]->state);
-	}
-	else
-	{
-		m_functionList[index]->statelessMethod(static_cast<NotepadPlugin*>(m_functionList[index]->instance));
-	}
+	m_functionList[index]->call();
 }
 
 HWND NotepadPlugin::getCurrentHScintilla()

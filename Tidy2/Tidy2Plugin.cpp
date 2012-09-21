@@ -7,27 +7,10 @@
 Tidy2Plugin::Tidy2Plugin(HMODULE hModule)
 	: NotepadPlugin(hModule)
 {
-	m_text = _T("SomeText");
-	auto ptr = static_cast<void (__thiscall NotepadPlugin::* )(void)>(&Tidy2Plugin::showMessage);
-
-	addMenuItem(_T("Tidy 1"), false, ModifierKeys::None, 0, this, ptr);
-	/*addMenuItem(_T("Tidy 1"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy1.cfg")));
-	addMenuItem(_T("Tidy 2"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy2.cfg")));
-	addMenuItem(_T("Tidy 3"), false, ModifierKeys::None, 0, this, &Tidy2Plugin::callTidy, (void*)(_T("tidy3.cfg")));*/
+	ADDMENUITEM(_T("Tidy 1"), false, ModifierKeys::None, 0, &Tidy2Plugin::showMessage);
+	ADDMENUITEM_WITHCONTEXT(_T("Tidy 2"), false, ModifierKeys::None, 0, &Tidy2Plugin::showMessageParam, const TCHAR *, _T("Test macro!"));
 }
 
-
-void Tidy2Plugin::notify(SCNotification* notification)
-{
-	switch(notification->nmhdr.code)
-	{
-		case NPPN_READY:
-			break;
-
-		case NPPN_SHUTDOWN:
-			break;
-	}
-}
 
 
 

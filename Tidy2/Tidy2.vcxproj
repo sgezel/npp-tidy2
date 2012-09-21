@@ -96,6 +96,8 @@ copy "$(SolutionDir)LICENSE" $(OutDir)doc\Tidy2</Command>
   <ItemGroup>
     <ClInclude Include="..\tidy-html5\include\tidy.h" />
     <ClInclude Include="AboutDialog.h" />
+    <ClInclude Include="CallableFunction.h" />
+    <ClInclude Include="ContextualFunctionItem.h" />
     <ClInclude Include="FunctionItem.h" />
     <ClInclude Include="ModifierKeys.h" />
     <ClInclude Include="NotepadPlugin.h" />
